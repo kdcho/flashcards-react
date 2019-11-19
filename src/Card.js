@@ -3,12 +3,17 @@ import styled from 'styled-components/macro'
 import Button from './Button'
 import Bookmark from './Bookmark'
 
-export default function Card({ question, answer }) {
+export default function Card({
+  question,
+  answer,
+  toggleBookmark,
+  isBookmarked
+}) {
   const [toggleState, setToggleState] = useState(true)
 
   return (
     <CardStyled className={!toggleState ? 'active' : ''}>
-      <Bookmark />
+      <Bookmark onClick={toggleBookmark} isBookmarked={isBookmarked} />
       <p>{question}</p>
       {
         <AnswerStyled className={!toggleState ? 'active' : ''}>

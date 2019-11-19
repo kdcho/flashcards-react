@@ -7,21 +7,49 @@ import styled from 'styled-components/macro'
 
 function App() {
   const [cards, setCards] = useState(Cards)
-  const [filter, setFilter] = useState('Show Bookmarked')
+  const [bookmarked, setBookmarked] = useState('Show Bookmarked')
 
   return (
     <div>
       <GlobalStyle />
       <Grid>
-        <Filter onClick={() => setFilter(!filter)}>
-          {filter ? 'Show Bookmarked' : 'Show All'}
+        <Filter onClick={filterBookmarked}>
+          {bookmarked ? 'Show Bookmarked' : 'Show All'}
         </Filter>
-        {Cards.map(card => (
-          <Card question={card.question} answer={card.answer} />
-        ))}
+        {Cards.map((card, index) =>
+          !bookmarked ? (
+            <Card
+              question={card.question}
+              answer={card.answer}
+              toggleBookmark={() => toggleBookmark(index)}
+              isBookmarked={card.isBookmarked}
+            />
+          ) : (
+            card.isBookmarked && (
+              <Card
+                question={card.question}
+                answer={card.answer}
+                isBookmarked={card.isBookmarked}
+              />
+            )
+          )
+        )}
       </Grid>
     </div>
   )
+
+  function filterBookmarked() {
+    setBookmarked(!bookmarked)
+  }
+
+  function toggleBookmark(index) {
+    const card = cards[index]
+    return setCards([
+      ...cards.slice(0, index),
+      { ...card, isBookmarked: !card.isBookmarked },
+      ...cards.slice(index + 1)
+    ])
+  }
 }
 
 const Filter = styled.button`

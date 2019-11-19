@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components/macro'
 
-export default function Bookmark() {
-  const [isBookmarked, setIsBookmarked] = useState(false)
+export default function Bookmark({ onClick, isBookmarked }) {
   return (
-    <BookmarkStyle
-      color={isBookmarked ? 'yellow' : 'red'}
-      onClick={() => setIsBookmarked(!isBookmarked)}
-    />
+    <BookmarkStyle color={isBookmarked ? 'yellow' : 'red'} onClick={onClick} />
   )
 }
 
