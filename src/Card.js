@@ -6,14 +6,13 @@ import Bookmark from './Bookmark'
 export default function Card({
   question,
   answer,
-  toggleBookmark,
+  onToggleBookmark,
   isBookmarked
 }) {
   const [toggleState, setToggleState] = useState(true)
-
   return (
     <CardStyled className={!toggleState ? 'active' : ''}>
-      <Bookmark onClick={toggleBookmark} isBookmarked={isBookmarked} />
+      <Bookmark onClick={onToggleBookmark} active={isBookmarked} />
       <p>{question}</p>
       {
         <AnswerStyled className={!toggleState ? 'active' : ''}>

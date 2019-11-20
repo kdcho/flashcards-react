@@ -1,63 +1,27 @@
-import React, { useState } from 'react'
-import Cards from './Cards.json'
-import Card from './Card.js'
-import GlobalStyle from './GlobalStyle.js'
-import Grid from './Grid.js'
-import styled from 'styled-components/macro'
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import Home from './Home.js'
 
 function App() {
-  const [cards, setCards] = useState(Cards)
-  const [bookmarked, setBookmarked] = useState('Show Bookmarked')
-
   return (
-    <div>
-      <GlobalStyle />
-      <Grid>
-        <Filter onClick={filterBookmarked}>
-          {bookmarked ? 'Show Bookmarked' : 'Show All'}
-        </Filter>
-        {Cards.map((card, index) =>
-          !bookmarked ? (
-            <Card
-              question={card.question}
-              answer={card.answer}
-              toggleBookmark={() => toggleBookmark(index)}
-              isBookmarked={card.isBookmarked}
-            />
-          ) : (
-            card.isBookmarked && (
-              <Card
-                question={card.question}
-                answer={card.answer}
-                isBookmarked={card.isBookmarked}
-              />
-            )
-          )
-        )}
-      </Grid>
-    </div>
+    <Router>
+      <div>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/create">Create Form</Link>
+        </nav>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/create">
+            <h1>Hello world</h1>
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
-
-  function filterBookmarked() {
-    setBookmarked(!bookmarked)
-  }
-
-  function toggleBookmark(index) {
-    const card = cards[index]
-    return setCards([
-      ...cards.slice(0, index),
-      { ...card, isBookmarked: !card.isBookmarked },
-      ...cards.slice(index + 1)
-    ])
-  }
 }
-
-const Filter = styled.button`
-  position: absolute;
-  height: 30px;
-  width: 120px;
-  top: 15px;
-  left: 15px;
-`
-
 export default App
