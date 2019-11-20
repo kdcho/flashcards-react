@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Home from './Home.js'
+import saveData from './services.js'
 
 function App() {
+  let cardData = JSON.parse(localStorage.savedData || null) || []
+  const [cards, setCards] = useState(cardData)
+  const [showBookmarked, setShowBookmarked] = useState(false)
+  saveData(cards)
+
   return (
     <Router>
       <div>
@@ -16,12 +22,34 @@ function App() {
           <Route path="/create">
             <h1>Hello world</h1>
           </Route>
-          <Route path="/">
-            <Home />
+          <Route exact path="/">
+            <Home
+              cards={cards}
+              toggleBookmark={toggleBookmark}
+              filterBookmarked={filterBookmarked}
+              addNewCard={addNewCard}
+              showBookmarked={showBookmarked}
+            />
           </Route>
         </Switch>
       </div>
     </Router>
   )
+  function filterBookmarked() {
+    setShowBookmarked(!showBookmarked)
+  }
+
+  function toggleBookmark(index) {
+    const card = cards[index]
+    setCards([
+      ...cards.slice(0, index),
+      { ...card, isBookmarked: !card.isBookmarked },
+      ...cards.slice(index + 1)
+    ])
+  }
+
+  function addNewCard(card) {
+    setCards([...cards, card])
+  }
 }
 export default App
