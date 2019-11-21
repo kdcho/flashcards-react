@@ -15,27 +15,19 @@ export default function Home({
         <Filter onClick={filterBookmarked}>
           {showBookmarked ? 'Show Bookmarked' : 'Show All'}
         </Filter>
-        {cards.map((card, index) =>
-          !showBookmarked ? (
+        {cards
+          .filter(card => {
+            return showBookmarked ? card.isBookmarked : true
+          })
+          .map(card => (
             <Card
-              key={index}
+              key={card._id}
               question={card.question}
               answer={card.answer}
-              onToggleBookmark={() => toggleBookmark(index)}
+              onToggleBookmark={() => toggleBookmark(card._id)}
               isBookmarked={card.isBookmarked}
             />
-          ) : (
-            card.isBookmarked && (
-              <Card
-                key={index}
-                question={card.question}
-                answer={card.answer}
-                onToggleBookmark={() => toggleBookmark(index)}
-                isBookmarked={card.isBookmarked}
-              />
-            )
-          )
-        )}
+          ))}
       </Grid>
     </>
   )

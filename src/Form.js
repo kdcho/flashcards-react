@@ -3,15 +3,14 @@ import styled from 'styled-components/macro'
 
 export default function Form({ addCard }) {
   const [formData, setFormData] = useState({ question: '', answer: '' })
-  const deaultFormState = formData
 
-  const validData =
+  const isDataValid =
     formData.question !== '' && formData.answer !== '' ? onSubmit : ''
   const isButtonDisabled =
     formData.question === '' || formData.answer === '' ? 'disabled' : ''
 
   return (
-    <FormBody id="cardForm" onSubmit={validData}>
+    <FormBody onSubmit={isDataValid}>
       <FormInput
         name="question"
         onChange={onChange}
@@ -34,15 +33,13 @@ export default function Form({ addCard }) {
 
   function onSubmit(event) {
     event.preventDefault()
-    console.log('formData', formData)
     addCard(formData)
-    resetForm()
+    resetForm(event)
   }
 
-  function resetForm() {
-    document.getElementById('cardForm').reset()
-    setFormData(deaultFormState)
-    console.log('formData22', formData)
+  function resetForm(event) {
+    event.target.reset()
+    setFormData({ question: '', answer: '' })
   }
 }
 
@@ -131,5 +128,12 @@ const FormButton = styled.button`
   }
   &:disabled {
     background: #006790;
+    box-shadow: none;
+    outline: none;
+    text-shadow: none;
+    transition: none;
+  }
+  &:disabled :active {
+    border-style: outset;
   }
 `
