@@ -2,16 +2,20 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Home from './Home.js'
 import saveData from './services.js'
+import GlobalStyle from './GlobalStyle.js'
+import Form from './Form.js'
 
 function App() {
-  let cardData = JSON.parse(localStorage.savedData || null) || []
+  let cardData =
+    JSON.parse(localStorage.savedData || null) || require('./Cards.json')
   const [cards, setCards] = useState(cardData)
   const [showBookmarked, setShowBookmarked] = useState(false)
   saveData(cards)
 
   return (
     <Router>
-      <div>
+      <>
+        <GlobalStyle />
         <nav>
           <Link to="/">Home</Link>
           <Link to="/create">Create Form</Link>
@@ -20,7 +24,7 @@ function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/create">
-            <h1>Hello world</h1>
+            <Form addCard={addNewCard} />
           </Route>
           <Route exact path="/">
             <Home
@@ -32,7 +36,7 @@ function App() {
             />
           </Route>
         </Switch>
-      </div>
+      </>
     </Router>
   )
   function filterBookmarked() {
@@ -50,6 +54,7 @@ function App() {
 
   function addNewCard(card) {
     setCards([...cards, card])
+    console.log('hierher', cards)
   }
 }
 export default App

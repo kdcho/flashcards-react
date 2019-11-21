@@ -41,7 +41,7 @@ const CardStyled = styled.section`
   grid-template-rows: 55px auto;
   width: 380px;
   height: 120px;
-  background: cornflowerblue;
+  background: #0199d9;
   color: black;
   border-radius: 5px;
   padding: 20px;
